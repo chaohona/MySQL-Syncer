@@ -137,12 +137,14 @@ static int rs_parse_dumpcmd(rs_reqdump_data_t *rd)
         goto free;
     }
 
-    
-    if(*p == '\n'){
-        ++p;
-    }
     if(*(++p) != ',') {
-        goto free;
+        if(*p == '\n'){
+            if(*(++p) != ','){
+                goto free;
+            }
+        } else {
+            goto free;
+        }
     }
 
     rd->filter_tables = p;
